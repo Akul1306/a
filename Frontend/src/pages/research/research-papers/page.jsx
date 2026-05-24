@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useKundliStore } from "@/lib/store";
+import { getApiUrl } from "@/lib/apiConfig";
 import { PaperHeroSection } from "@/components/research/paper/PaperHeroSection";
 import { ResearchPaperGrid } from "@/components/research/paper/ResearchPaperGrid";
 import { Plus, X, Upload, BookOpen, ShieldAlert } from "lucide-react";
@@ -39,7 +40,7 @@ export default function ResearchPapersPage() {
 
     const fetchPapers = async () => {
         try {
-            const response = await fetch("/api/papers");
+            const response = await fetch(getApiUrl("/api/papers"));
             if (!response.ok) {
                 throw new Error("Failed to fetch research papers");
             }
@@ -101,7 +102,7 @@ export default function ResearchPapersPage() {
         formData.append("file", selectedFile);
 
         try {
-            const response = await fetch("/api/papers", {
+            const response = await fetch(getApiUrl("/api/papers"), {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${token}`

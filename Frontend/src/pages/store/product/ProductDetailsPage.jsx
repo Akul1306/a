@@ -12,6 +12,7 @@ import {
 import { useKundliStore } from "@/lib/store";
 import { useCartStore } from "@/lib/cartStore";
 import { Button } from "@/components/ui/button";
+import { getApiUrl } from "@/lib/apiConfig";
 
 const categoryThemes = {
   Gemstone: "bg-emerald-500/10 text-emerald-600 border-emerald-500/20 dark:text-emerald-400",
@@ -39,7 +40,7 @@ export default function ProductDetailsPage() {
 
   const fetchRelated = async (category, currentProductId) => {
     try {
-      const res = await fetch("/api/products");
+      const res = await fetch(getApiUrl("/api/products"));
       if (!res.ok) return;
       const data = await res.json();
       if (data.status === "success" && data.data?.products) {
@@ -59,7 +60,7 @@ export default function ProductDetailsPage() {
       setLoading(true);
       setError(null);
       
-      const res = await fetch(`/api/products/${id}`);
+      const res = await fetch(getApiUrl(`/api/products/${id}`));
       if (!res.ok) {
         throw new Error("Failed to fetch product details. It might have been deleted or the ID is invalid.");
       }

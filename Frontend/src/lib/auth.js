@@ -1,5 +1,7 @@
+import { getApiUrl } from "./apiConfig";
+
 export const loginWithEmail = async (email, password) => {
-  const response = await fetch("/api/auth/login", {
+  const response = await fetch(getApiUrl("/api/auth/login"), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -15,7 +17,7 @@ export const loginWithEmail = async (email, password) => {
 };
 
 export const registerUser = async (userData) => {
-  const response = await fetch("/api/auth/register", {
+  const response = await fetch(getApiUrl("/api/auth/register"), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -31,7 +33,7 @@ export const registerUser = async (userData) => {
 };
 
 export const googleAuth = async (credentialToken) => {
-  const response = await fetch("/api/auth/google", {
+  const response = await fetch(getApiUrl("/api/auth/google"), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -55,7 +57,7 @@ export const getProfileAPI = async () => {
   const token = localStorage.getItem("kalyan_token");
   if (!token) return null;
   
-  const response = await fetch("/api/users/profile", {
+  const response = await fetch(getApiUrl("/api/users/profile"), {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -79,7 +81,7 @@ export const updateProfileAPI = async (formDataOrData) => {
     headers["Content-Type"] = "application/json";
   }
 
-  const response = await fetch("/api/users/profile", {
+  const response = await fetch(getApiUrl("/api/users/profile"), {
     method: "PUT",
     headers,
     body: isMultipart ? formDataOrData : JSON.stringify(formDataOrData),

@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCartStore } from "@/lib/cartStore";
 import { useKundliStore } from "@/lib/store";
+import { getApiUrl } from "@/lib/apiConfig";
 
 export function CartDashboard() {
   const router = useRouter();
@@ -122,7 +123,7 @@ export function CartDashboard() {
         quantity: item.quantity,
       }));
 
-      const response = await fetch("/api/orders/checkout", {
+      const response = await fetch(getApiUrl("/api/orders/checkout"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -166,7 +167,7 @@ export function CartDashboard() {
           handler: async function (verifyResponse) {
             try {
               setIsVerifying(true);
-              const verifyRes = await fetch("/api/orders/verify", {
+              const verifyRes = await fetch(getApiUrl("/api/orders/verify"), {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
@@ -225,7 +226,7 @@ export function CartDashboard() {
       const paymentId = `pay_sim_${Math.random().toString(36).substring(2, 10)}`;
       const signature = `sig_sim_${Math.random().toString(36).substring(2, 10)}`;
 
-      const verifyRes = await fetch("/api/orders/verify", {
+      const verifyRes = await fetch(getApiUrl("/api/orders/verify"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -263,7 +264,7 @@ export function CartDashboard() {
     if (!simulationData) return;
     try {
       setIsVerifying(true);
-      await fetch("/api/orders/verify", {
+      await fetch(getApiUrl("/api/orders/verify"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

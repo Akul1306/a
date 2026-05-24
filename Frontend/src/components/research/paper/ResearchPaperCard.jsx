@@ -5,6 +5,7 @@ import { Calendar, User, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useKundliStore } from "@/lib/store";
 import { useNavigate } from "react-router-dom";
+import { getApiUrl } from "@/lib/apiConfig";
 
 export const ResearchPaperCard = ({ _id, title, author, date, description, link = "#", fileUrl, createdAt, onDeleteSuccess, showToast }) => {
     const { currentUser, token, isAuthenticated } = useKundliStore();
@@ -39,7 +40,7 @@ export const ResearchPaperCard = ({ _id, title, author, date, description, link 
 
         setDeleting(true);
         try {
-            const response = await fetch(`/api/papers/${_id}`, {
+            const response = await fetch(getApiUrl(`/api/papers/${_id}`), {
                 method: "DELETE",
                 headers: {
                     "Authorization": `Bearer ${token}`

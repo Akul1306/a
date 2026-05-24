@@ -12,6 +12,7 @@ import {
 import { useKundliStore } from "@/lib/store";
 import { useCartStore } from "@/lib/cartStore";
 import { Button } from "@/components/ui/button";
+import { getApiUrl } from "@/lib/apiConfig";
 
 const CATEGORIES = [
   { id: "all", name: "All Products" },
@@ -74,7 +75,7 @@ export default function StorePage() {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const res = await fetch("/api/products");
+      const res = await fetch(getApiUrl("/api/products"));
       const data = await res.json();
       if (data.status === "success") {
         setProducts(data.data.products);
@@ -157,7 +158,7 @@ export default function StorePage() {
       payload.append("deliveryEstimate", formData.deliveryEstimate);
       payload.append("thumbnail", thumbnailFile);
 
-      const res = await fetch("/api/products", {
+      const res = await fetch(getApiUrl("/api/products"), {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`

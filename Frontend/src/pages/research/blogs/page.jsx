@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useKundliStore } from "@/lib/store";
+import { getApiUrl } from "@/lib/apiConfig";
 import BlogHero from "@/components/research/blogs/BlogHero";
 import ResearchTopics from "@/components/research/paper/researchtopics";
 import BlogGrid from "@/components/research/blogs/BlogGrid";
@@ -89,7 +90,7 @@ export default function BlogsPage() {
 
     const fetchBlogs = async () => {
         try {
-            const response = await fetch("/api/blogs");
+            const response = await fetch(getApiUrl("/api/blogs"));
             if (!response.ok) {
                 throw new Error("Failed to fetch blogs");
             }
@@ -160,13 +161,13 @@ export default function BlogsPage() {
             let response;
             if (editingBlog) {
                 const id = editingBlog._id || editingBlog.id;
-                response = await fetch(`/api/blogs/${id}`, {
+                response = await fetch(getApiUrl(`/api/blogs/${id}`), {
                     method: "PATCH",
                     headers,
                     body: JSON.stringify(payload)
                 });
             } else {
-                response = await fetch("/api/blogs", {
+                response = await fetch(getApiUrl("/api/blogs"), {
                     method: "POST",
                     headers,
                     body: JSON.stringify(payload)
@@ -210,7 +211,7 @@ export default function BlogsPage() {
         }
 
         try {
-            const response = await fetch(`/api/blogs/${id}`, {
+            const response = await fetch(getApiUrl(`/api/blogs/${id}`), {
                 method: "DELETE",
                 headers
             });
@@ -257,7 +258,7 @@ export default function BlogsPage() {
                 bio: adminBio || undefined,
             };
 
-            const response = await fetch("/api/auth/add-admin", {
+            const response = await fetch(getApiUrl("/api/auth/add-admin"), {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

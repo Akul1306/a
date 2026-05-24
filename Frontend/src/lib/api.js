@@ -1,5 +1,7 @@
+import { getApiUrl } from "./apiConfig";
+
 class KundliAPI {
-    baseUrl = "/api/kundli";
+    baseUrl = getApiUrl("/api/kundli");
     async generateKundli(formData) {
         const response = await fetch(`${this.baseUrl}/generate`, {
             method: "POST",
