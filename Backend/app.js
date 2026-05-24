@@ -13,13 +13,33 @@ import testRouter from "./modules/tests/testRoutes.js";
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "https://a-mu-lime.vercel.app",
+];
+
+if (process.env.ALLOWED_ORIGINS) {
+  process.env.ALLOWED_ORIGINS.split(",").forEach(o => {
+    if (o.trim()) allowedOrigins.push(o.trim());
+  });
+}
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "http://localhost:3000",
-      "https://a-mu-lime.vercel.app/",
-    ],
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      const cleanOrigin = origin.replace(/\/$/, "");
+      const isAllowed = allowedOrigins.some(allowed => {
+        const cleanAllowed = allowed.replace(/\/$/, "");
+        return cleanOrigin === cleanAllowed || cleanOrigin.endsWith(".vercel.app");
+      });
+      if (isAllowed) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   }),
 );
